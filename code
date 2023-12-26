@@ -1,0 +1,129 @@
+import tkinter as tk
+from tkinter import ttk
+from math import sqrt
+
+class Calcul:
+    def __init__(self, ws):
+        self.ws = ws
+        self.ws.title("Калькулятор")
+        self.ws.geometry('375x165')
+
+        self.number_entry = ttk.Entry(self.ws, width=20)
+        self.number_entry.grid(row=0, column=0, columnspan=5)
+
+        self.bt1 = ttk.Button(self.ws, text="1", command=lambda: self.bt_click(1))
+        self.bt2 = ttk.Button(self.ws, text="2", command=lambda: self.bt_click(2))
+        self.bt3 = ttk.Button(self.ws, text="3", command=lambda: self.bt_click(3))
+        self.bt4 = ttk.Button(self.ws, text="4", command=lambda: self.bt_click(4))
+        self.bt5 = ttk.Button(self.ws, text="5", command=lambda: self.bt_click(5))
+        self.bt6 = ttk.Button(self.ws, text="6", command=lambda: self.bt_click(6))
+        self.bt7 = ttk.Button(self.ws, text="7", command=lambda: self.bt_click(7))
+        self.bt8 = ttk.Button(self.ws, text="8", command=lambda: self.bt_click(8))
+        self.bt9 = ttk.Button(self.ws, text="9", command=lambda: self.bt_click(9))
+        self.bt0 = ttk.Button(self.ws, text="0", command=lambda: self.bt_click(0))
+        self.bt_clear = ttk.Button(self.ws, text="C", command=self.bt_clear)
+        self.bt_add = ttk.Button(self.ws, text="+", command=self.bt_add)
+        self.bt_equ = ttk.Button(self.ws, text="=", command=self.bt_equ)
+        self.bt_sub = ttk.Button(self.ws, text="-", command=self.bt_sub)
+        self.bt_mult = ttk.Button(self.ws, text="*", command=self.bt_mult)
+        self.bt_div = ttk.Button(self.ws, text="/", command=self.bt_div)
+        self.bt_sqrt = ttk.Button(self.ws, text="√", command=self.bt_sqrt)
+        self.bt_neg = ttk.Button(self.ws, text="+/-", command=self.bt_neg)
+
+        self.bt1.grid(row=1, column=0)
+        self.bt2.grid(row=1, column=1)
+        self.bt3.grid(row=1, column=2)
+        self.bt_add.grid(row=1, column=3)
+
+        self.bt4.grid(row=2, column=0)
+        self.bt5.grid(row=2, column=1)
+        self.bt6.grid(row=2, column=2)
+        self.bt_sub.grid(row=2, column=3)
+
+        self.bt7.grid(row=3, column=0)
+        self.bt8.grid(row=3, column=1)
+        self.bt9.grid(row=3, column=2)
+        self.bt_mult.grid(row=3, column=3)
+
+        self.bt0.grid(row=4, column=0)
+        self.bt_neg.grid(row=4, column=1)
+        self.bt_equ.grid(row=4, column=2)
+        self.bt_div.grid(row=4, column=3)
+
+        self.bt_clear.grid(row=5, column=0)
+        self.bt_sqrt.grid(row=5, column=1)
+
+        self.f_num = 0
+        self.math = ""
+
+    def bt_click(self, numb):
+        current = self.number_entry.get()
+        self.number_entry.delete(0, tk.END)
+        self.number_entry.insert(0, str(current) + str(numb))
+
+    def bt_clear(self):
+        self.number_entry.delete(0, tk.END)
+
+    def bt_add(self):
+        first_numb = self.number_entry.get()
+        self.math = "add"
+        self.f_num = int(first_numb)
+        self.number_entry.delete(0, tk.END)
+
+    def bt_equ(self):
+        second_numb = self.number_entry.get()
+        self.number_entry.delete(0, tk.END)
+        if self.math == "add":
+            self.number_entry.insert(0, self.f_num + int(second_numb))
+
+        if self.math == "mult":
+            self.number_entry.insert(0, self.f_num * int(second_numb))
+
+        if self.math == "div":
+            self.number_entry.insert(0, self.f_num / int(second_numb))
+
+        if self.math == "floor_div":
+            self.number_entry.insert(0, self.f_num // int(second_numb))
+
+    def bt_sub(self):
+        first_numb = self.number_entry.get()
+        self.math = "sub"
+        self.f_num = int(first_numb)
+        self.number_entry.delete(0, tk.END)
+
+    def bt_mult(self):
+        first_numb = self.number_entry.get()
+        self.math = "mult"
+        self.f_num = int(first_numb)
+        self.number_entry.delete(0, tk.END)
+
+    def bt_div(self):
+        first_numb = self.number_entry.get()
+        self.math = "div"
+        self.f_num = int(first_numb)
+        self.number_entry.delete(0, tk.END)
+
+    def bt_sqrt(self):
+        numb = float(self.number_entry.get())
+        result = sqrt(numb)
+        if result.is_integer():
+            self.number_entry.delete(0, tk.END)
+            self.number_entry.insert(0, int(result))
+        else:
+            self.number_entry.delete(0, tk.END)
+            self.number_entry.insert(0, result)
+
+    def bt_neg(self):
+        current = self.number_entry.get()
+        if current.startswith("-"):
+            current = current[1:]
+        else:
+            current = "-" + current
+        self.number_entry.delete(0, tk.END)
+        self.number_entry.insert(0, current)
+
+
+if __name__ == '__main__':
+    root = tk.Tk()
+    calc = Calcul(root)
+    root.mainloop()
